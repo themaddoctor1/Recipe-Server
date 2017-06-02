@@ -1,0 +1,22 @@
+{
+  "name": "recipe-server",
+  "version": "1.0.0",
+  "description": "A web server that uses MongoDB to store and serve recipes.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Hittner",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongodb": "^2.2.27",
+    "nodemon": "^1.11.0",
+    "socket.io": "^2.0.1",
+    "yargs": "^8.0.1"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/themaddoctor1/Recipe-Server.git"
+  }
+}

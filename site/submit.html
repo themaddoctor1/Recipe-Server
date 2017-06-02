@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/style.css" type= "text/css" rel="stylesheet" />
+        <meta name="author" content="Christopher Hittner" />
+        <meta name="description" content="My personal NodeJS server." />
+        <title>Recipes</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            function addRecipe() {
+                // Get the containers
+                nameField = document.getElementsByName('name')[0];
+                descField = document.getElementsByName('desc')[0];
+                direcField = document.getElementsByName('directions')[0];
+
+                if (nameField.value.length <= 0)
+                    return;
+
+                query = {
+                    'name' : nameField.value,
+                    'desc' : descField.value,
+                    'directions' : direcField.value
+                };
+
+                nameField.value = "";
+                descField.value = "";
+                direcField.value = "";
+
+                socket.emit('add_recipe', query);
+
+                console.log('Recipe sent');
+
+            };
+
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <nav class="toplinkbar">
+                <ul>
+                    <li><a href="/search">Search</a></li>
+                    <li><a class="active" href="#submit">Submit</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="mainbody">
+            
+        <h1>Recipe Database</h1>
+
+        <p style="text-align: center">Submit a recipe to the database.</p>
+    
+        <section class="submissionform">
+            Name:<br />
+            <input type="text" name="name" /><br />
+            Description:<br />
+            <input type="text" name="desc" /><br />
+            Directions:<br />
+            <textarea rows="4" cols="50" name="directions"></textarea><br />
+            <button onclick="addRecipe()">Submit</button>
+        </section>
+        
+        </div>
+    </body>
+</html>

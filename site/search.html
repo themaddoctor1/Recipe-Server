@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/style.css" type= "text/css" rel="stylesheet" />
+        <meta name="author" content="Christopher Hittner" />
+        <meta name="description" content="My personal NodeJS server." />
+        <title>Recipes</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            var recipeList = [];
+            
+            function search(evt) {
+                if (evt.keyCode == 13) {
+                    var name = document.getElementsByName('search')[0].value;
+                    
+                    console.log('Requesting recipes matching /' + name + '/g');
+                    socket.emit('req_recipe', {
+                        'name' : name
+                    });
+                }
+            };
+
+            function deleteRecipe(id) {
+                
+                console.log('Requesting deletion of recipe w/ id', id);
+
+                socket.emit('del_recipe', {
+                    id : id
+                });
+                
+                // Update the search results
+                search({keyCode: 13});
+
+            }
+
+            function genRecipeEntry(rec, idx, useTags = true, expanded = false) {
+                recipeHTML =
+                        `<h2>${rec.name}</h2>
+                        <p>${rec.desc}</p>
+                        ${rec.directions === undefined || !expanded ? "" : ("<h3>Directions</h3><p>" + rec.directions.replace(/\n/g, "</p><p>"))}</p>
+                        <button onclick=${'"'
+                        + 'document.getElementsByName(\'recipeentry_' + idx + '\')[0].innerHTML '
+                                + '= genRecipeEntry(recipeList[' + idx + '],' + idx + ',false,' + !expanded + ')'
+                        + '"'}>${expanded ? "Less" : "More"}
+                        <button onclick=${'"deleteRecipe(' + rec.id + ')"'}>Delete</button>`;
+
+                if (useTags) {
+                    recipeHTML = `<article class=${'"recipeentry"'} name=${'"recipeentry_' + idx + '"'}>` + recipeHTML + "</article>";
+                    console.log(idx);
+                }
+                
+                return recipeHTML;
+            }
+
+            socket.on('res_recipe', function (data) {
+                var recipeDoc = document.getElementById('recipes');
+                recipeDoc.innerHTML = '';
+
+                var res_html = `<p>There ${data.length == 0 ? "are no" : data.length == 1 ? "is one" : ("are " + data.length)} matching result${data.length == 1 ? "" : "s"} for regex ${"'"}<strong>/${document.getElementsByName('search')[0].value}/gi</strong>${"'"}</p>`;
+                for (var i = 0; i < data.length; i++) {
+                    recipeList.push(data[i]);
+                    res_html += genRecipeEntry(data[i], i, true, false);
+                }
+                
+                recipeDoc.innerHTML = res_html;
+
+            });
+
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <nav class="toplinkbar">
+                <ul>
+                    <li><a class="active" href="#search">Search</a></li>
+                    <li><a href="/submit">Submit</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="mainbody">
+            
+        <h1>Recipe Database</h1>
+
+        <p style="text-align: center">Make a regex query to find recipes.</p>
+
+        <input class="recipesearch" type="text" name="search" placeholder="Search recipes..." onkeydown="search(event)">
+
+        <div id="recipes">
+        </div>
+    </body>
+</html>

@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+}
+
+button {
+    background-color: #333;
+    border: none;
+    color: white;
+    padding: 8px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    transition-duration: 0.4s;
+}
+
+button:hover {
+	background-color: #111;
+}
+
+button:active {
+    background-color: #328CC1;
+}
+
+
+#mainbody {
+    padding:10px 20px;
+}
+
+
+#mainbody h1 {
+    text-align: center;
+}
+
+.toplinkbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.toplinkbar li {
+    float: left;
+}
+
+.toplinkbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+
+    transition-duration: 0.4s;
+}
+
+.toplinkbar li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.toplinkbar li a:active:not(.active) {
+    background-color: #328CC1;
+}
+
+.toplinkbar .active {
+    background-color: #328CC1;
+}
+
+.recipesearch {
+    width: 50%;
+
+    display: block;
+    margin: 0 25%;
+
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#recipes p {
+    text-align: center;
+}
+
+.recipeentry {
+    display: table-cell;
+    width: 50%;
+    float: left;
+    margin: 10px 20%;
+    padding: 10px 5%;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #eee;
+    text-align: center;
+}
+
+.submissionform {
+    display: block;
+
+}
+
+
